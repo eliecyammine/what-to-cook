@@ -34,14 +34,14 @@ export default function HomePage() {
   return (
     <>
       <div className="mx-6 flex w-full max-w-xl flex-col items-center justify-center space-y-6 sm:mx-auto">
-        <div className="animate-fade-down flex flex-col items-center space-y-3">
+        <div className="flex animate-fade-down flex-col items-center space-y-3">
           <IconFridge strokeWidth="1.5" className="size-10 sm:size-16" />
 
           <h4 className="font-logo text-5xl font-medium sm:text-7xl">What to Cook?</h4>
         </div>
 
         <div className="flex w-full flex-col items-center space-y-3">
-          <div className="animate-fade-down w-full">
+          <div className="w-full animate-fade-down">
             <TagInput
               className="rounded-lg"
               placeholder="What’s in your kitchen?"
@@ -51,7 +51,7 @@ export default function HomePage() {
           </div>
 
           {tags.length > 0 ? (
-            <div className="animate-fade-down flex flex-wrap justify-center gap-2">
+            <div className="flex animate-fade-down flex-wrap justify-center gap-2">
               {tags.map((tag) => (
                 <Tag key={tag.id} tag={tag} onRemoveTag={handleRemoveTag} />
               ))}

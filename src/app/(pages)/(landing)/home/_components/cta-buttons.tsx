@@ -6,7 +6,7 @@ import { Button } from '@/components/core/button';
 
 export default function CTAButtons() {
   return (
-    <div className="animate-fade-in flex flex-row items-center space-x-3">
+    <div className="flex animate-fade-in flex-row items-center space-x-3">
       <Button variant="default" onClick={() => console.log(`Explore Button Clicked!`)}>
         <h4>{`Explore Recipes`}</h4>
       </Button>

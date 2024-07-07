@@ -22,7 +22,7 @@ export default function Footer() {
 
       <Link
         href="https://flowless.xyz"
-        className="animate-fade-up group text-muted-foreground hover:text-foreground focus-visible:outline-none md:absolute md:right-10"
+        className="group animate-fade-up text-muted-foreground hover:text-foreground focus-visible:outline-none md:absolute md:right-10"
       >
         <h4 className="font-mono text-sm font-medium md:text-base">
           Made with <span className="group-hover:font-sans">❤️</span> by{' '}

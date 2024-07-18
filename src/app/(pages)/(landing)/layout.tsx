@@ -12,7 +12,7 @@ interface LandingLayoutProps {
 export default function LandingLayout({ children }: Readonly<LandingLayoutProps>) {
   return (
     <div className="relative overflow-hidden">
-      <main className="flex min-h-dvh">
+      <main className="bg-img flex min-h-dvh">
         <Header />
 
         {children}

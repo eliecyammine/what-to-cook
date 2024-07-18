@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '@/lib/providers/theme-provider';
 import { cn } from '@/lib/utils';
 
+import { TooltipProvider } from '@/components/core/tooltip';
 import TailwindIndicator from '@/components/others/tailwind-indicator';
 
 import { fontFlowlessLogo, fontLogo, fontMono, fontSans } from '@/styles/fonts';
@@ -27,9 +28,9 @@ interface RootLayoutProps {
 
 /// ---------- || ROOT LAYOUT || ---------- ///
 
-export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
+export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <head />
 
       <body
@@ -42,7 +43,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         )}
       >
         <ThemeProvider>
-          {children}
+          <TooltipProvider>{children}</TooltipProvider>
 
           <TailwindIndicator />
         </ThemeProvider>

@@ -178,9 +178,9 @@ const config: Config = {
 
         spotlight: 'spotlight 2s ease .75s 1 forwards',
 
-        'fade-in': 'fade-in 3s ease-in-out forwards',
-        'fade-up': 'fade-up 3s ease-in-out forwards',
-        'fade-down': 'fade-down 3s ease-in-out forwards',
+        'fade-in': 'fade-in 2s ease-in-out forwards',
+        'fade-up': 'fade-up 2s ease-in-out forwards',
+        'fade-down': 'fade-down 2s ease-in-out forwards',
       },
     },
   },

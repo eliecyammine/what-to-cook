@@ -6,6 +6,14 @@ const nextConfig = {
 
   // Just to ensure that React is always on strict mode
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

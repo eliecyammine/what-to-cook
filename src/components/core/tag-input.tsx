@@ -9,16 +9,17 @@ import { cn } from '@/lib/utils';
 
 import { Button } from './button';
 import { Input, InputProps } from './input';
-import { ScrollArea } from './scroll-area';
 import { Separator } from './separator';
 
 interface TagInputProps extends InputProps {
   suggestions: string[];
   onSuggestionSelected?: (suggestion: string) => void;
+
+  existingTags?: string[];
 }
 
 const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
-  ({ className, suggestions, onSuggestionSelected, ...props }, ref) => {
+  ({ className, suggestions, onSuggestionSelected, existingTags = [], ...props }, ref) => {
     const [inputValue, setInputValue] = useState('');
     const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -27,8 +28,10 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
 
     useEffect(() => {
       if (inputValue) {
-        const filtered = suggestions.filter((suggestion) =>
-          suggestion.toLowerCase().includes(inputValue.toLowerCase()),
+        const filtered = suggestions.filter(
+          (suggestion) =>
+            suggestion.toLowerCase().includes(inputValue.toLowerCase()) &&
+            !existingTags.includes(suggestion.toLowerCase()),
         );
         setFilteredSuggestions(filtered);
         setShowSuggestions(true);
@@ -36,16 +39,21 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
         setFilteredSuggestions([]);
         setShowSuggestions(false);
       }
-    }, [inputValue, suggestions]);
+    }, [inputValue, suggestions, existingTags]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(e.target.value);
+      setActiveSuggestionIndex(0);
     };
 
     const handleSuggestionClick = (suggestion: string) => {
-      setInputValue(suggestion);
+      if (!existingTags.includes(suggestion.toLowerCase())) {
+        onSuggestionSelected?.(suggestion);
+      }
+
+      setInputValue('');
       setShowSuggestions(false);
-      onSuggestionSelected?.(suggestion);
+      setActiveSuggestionIndex(-1);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -55,9 +63,14 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
         );
       } else if (e.key === 'ArrowUp') {
         setActiveSuggestionIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
-      } else if (e.key === 'Enter') {
+      } else if (e.key === ',' || e.key === 'Enter') {
+        e.preventDefault(); // Prevent form submission
         if (activeSuggestionIndex >= 0) {
           handleSuggestionClick(filteredSuggestions[activeSuggestionIndex]);
+        } else if (filteredSuggestions.length > 0) {
+          handleSuggestionClick(filteredSuggestions[0]);
+        } else {
+          setShowSuggestions(false);
         }
       }
     };

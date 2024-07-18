@@ -23,7 +23,7 @@ export default function Header() {
         </Link>
 
         <Badge variant="outline" className="py-[1px] text-muted-foreground">
-          Beta
+          Alpha
         </Badge>
       </div>
 

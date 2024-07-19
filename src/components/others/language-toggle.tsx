@@ -17,21 +17,21 @@ const languages = [
     label: 'English',
     disabled: false,
   },
-  {
-    code: 'ar',
-    label: 'Arabic',
-    disabled: true,
-  },
-  {
-    code: 'fr',
-    label: 'French',
-    disabled: true,
-  },
-  {
-    code: 'es',
-    label: 'Spanish',
-    disabled: true,
-  },
+  // {
+  //   code: 'ar',
+  //   label: 'Arabic',
+  //   disabled: true,
+  // },
+  // {
+  //   code: 'fr',
+  //   label: 'French',
+  //   disabled: true,
+  // },
+  // {
+  //   code: 'es',
+  //   label: 'Spanish',
+  //   disabled: true,
+  // },
 ];
 
 /// ---------- || LANGUAGE TOGGLE || ---------- ///

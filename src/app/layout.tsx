@@ -18,6 +18,14 @@ export const metadata: Metadata = {
   },
 
   description: 'Discover Delicious Recipes with What You Have',
+
+  icons: {
+    icon: '/favicons/favicon.ico',
+    shortcut: '/favicons/favicon-16x16.png',
+    apple: '/favicons/apple-touch-icon.png',
+  },
+
+  manifest: `/site.webmanifest`,
 };
 
 /// ---------- || TYPES & INTERFACES || ---------- ///

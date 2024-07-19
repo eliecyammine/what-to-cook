@@ -1,8 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-
-import Image from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -35,6 +33,7 @@ export default function HomePage() {
   const [recipes, setRecipes] = useState<[]>([]);
 
   const [inputError, setInputError] = useState(false);
+
   const [isExploreCTALoading, setIsExploreCTALoading] = useState(false);
   const [isLuckyCTALoading, setIsLuckyCTALoading] = useState(false);
 
@@ -42,7 +41,6 @@ export default function HomePage() {
 
   const handleRemoveTag = (id: string) => {
     const updatedTags = tags.filter((tag) => tag.id !== id);
-
     setTags(updatedTags);
 
     if (updatedTags.length === 0) {
@@ -61,34 +59,48 @@ export default function HomePage() {
     setInputError(false);
   };
 
-  const handleExplore = async () => {
+  const fetchRecipes = useCallback(async () => {
     if (tags.length === 0) {
       setInputError(true);
       return;
     }
 
     setIsExploreCTALoading(true);
-    if (tags.length > 0) {
-      try {
-        const ingredients = tags.map((tag) => tag.text).join(',');
-        const response = await fetch(
-          `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&apiKey=${SPOONACULAR_API_KEY}`,
-        );
+    try {
+      const ingredients = tags.map((tag) => tag.text).join(',');
+      const response = await fetch(
+        `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&apiKey=${SPOONACULAR_API_KEY}`,
+      );
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-
-        const data = await response.json();
-        setRecipes(data);
-        setShowRecipes(true);
-      } catch (error) {
-        console.error('Error fetching recipes:', error);
-      } finally {
-        setIsExploreCTALoading(false);
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
       }
+
+      const data = await response.json();
+      setRecipes(data);
+      setShowRecipes(true);
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    } finally {
+      setIsExploreCTALoading(false);
+    }
+  }, [SPOONACULAR_API_KEY, tags]);
+
+  const handleExplore = () => {
+    if (tags.length === 0) {
+      setInputError(true);
+    } else {
+      fetchRecipes();
     }
   };
+
+  useEffect(() => {
+    if (showRecipes && tags.length > 0) {
+      fetchRecipes();
+    } else if (tags.length === 0) {
+      setShowRecipes(false);
+    }
+  }, [fetchRecipes, showRecipes, tags]);
 
   return (
     <>
@@ -101,13 +113,11 @@ export default function HomePage() {
         <Title showRecipes={showRecipes} />
 
         <div className="flex w-full max-w-xl flex-col items-center space-y-4">
-          {!showRecipes && (
-            <TagInputField
-              tags={tags}
-              onSuggestionSelected={handleSuggestionSelected}
-              inputError={inputError}
-            />
-          )}
+          <TagInputField
+            tags={tags}
+            onSuggestionSelected={handleSuggestionSelected}
+            inputError={inputError}
+          />
 
           {tags.length > 0 ? (
             <TagsList tags={tags} onRemoveTag={handleRemoveTag} onClearTags={handleClearTags} />

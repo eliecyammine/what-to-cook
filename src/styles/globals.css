@@ -136,7 +136,7 @@
     width: 100%;
     height: 100%;
     background-color: hsl(var(--background) / 0.88);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(5px);
     z-index: -1;
   }
 

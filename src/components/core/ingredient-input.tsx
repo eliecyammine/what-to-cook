@@ -11,15 +11,15 @@ import { Button } from './button';
 import { Input, InputProps } from './input';
 import { Separator } from './separator';
 
-interface TagInputProps extends InputProps {
+interface IngredientInputProps extends InputProps {
   suggestions: string[];
   onSuggestionSelected?: (suggestion: string) => void;
 
-  existingTags?: string[];
+  existingIngredients?: string[];
 }
 
-const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
-  ({ className, suggestions, onSuggestionSelected, existingTags = [], ...props }, ref) => {
+const IngredientInput = React.forwardRef<HTMLInputElement, IngredientInputProps>(
+  ({ className, suggestions, onSuggestionSelected, existingIngredients = [], ...props }, ref) => {
     const [inputValue, setInputValue] = useState('');
     const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -31,7 +31,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
         const filtered = suggestions.filter(
           (suggestion) =>
             suggestion.toLowerCase().includes(inputValue.toLowerCase()) &&
-            !existingTags.includes(suggestion.toLowerCase()),
+            !existingIngredients.includes(suggestion.toLowerCase()),
         );
         setFilteredSuggestions(filtered);
         setShowSuggestions(true);
@@ -39,7 +39,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
         setFilteredSuggestions([]);
         setShowSuggestions(false);
       }
-    }, [inputValue, suggestions, existingTags]);
+    }, [inputValue, suggestions, existingIngredients]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(e.target.value);
@@ -47,7 +47,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
     };
 
     const handleSuggestionClick = (suggestion: string) => {
-      if (!existingTags.includes(suggestion.toLowerCase())) {
+      if (!existingIngredients.includes(suggestion.toLowerCase())) {
         onSuggestionSelected?.(suggestion);
       }
 
@@ -135,6 +135,6 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
     );
   },
 );
-TagInput.displayName = 'TagInput';
+IngredientInput.displayName = 'IngredientInput';
 
-export { TagInput };
+export { IngredientInput };

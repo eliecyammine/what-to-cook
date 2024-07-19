@@ -2,6 +2,13 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
+import {
+  addIngredient,
+  clearIngredients,
+  removeIngredient,
+} from '@/lib/features/ingredients/ingredients-slice';
+import { fetchRecipes } from '@/lib/features/recipes/recipes-slice';
+import { useAppDispatch, useAppSelector } from '@/lib/state/hooks';
 import { cn } from '@/lib/utils';
 
 import {
@@ -15,22 +22,26 @@ import {
 } from '@/components/core/pagination';
 import { Separator } from '@/components/core/separator';
 import { Skeleton } from '@/components/core/skeleton';
-import { TagItem } from '@/components/core/tag';
 
 import AlertMessage from './_components/alert-message';
 import CTAButtons from './_components/cta-buttons';
+import IngredientInputField from './_components/ingredient-input-field';
+import IngredientsList from './_components/ingredients-list';
 import RecipesGrid from './_components/recipes-grid';
-import TagInputField from './_components/tag-input-field';
-import TagsList from './_components/tags-list';
 import Title from './_components/title';
 
 /// ---------- || HOME PAGE || ---------- ///
 
 export default function HomePage() {
-  const [tags, setTags] = useState<TagItem[]>([]);
+  const dispatch = useAppDispatch();
+
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
+
+  const recipes = useAppSelector((state) => state.recipes.recipes);
+  const loading = useAppSelector((state) => state.recipes.loading);
+  const error = useAppSelector((state) => state.recipes.error);
 
   const [showRecipes, setShowRecipes] = useState(false);
-  const [recipes, setRecipes] = useState<[]>([]);
 
   const [inputError, setInputError] = useState(false);
 
@@ -39,68 +50,54 @@ export default function HomePage() {
 
   const SPOONACULAR_API_KEY = process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY;
 
-  const handleRemoveTag = (id: string) => {
-    const updatedTags = tags.filter((tag) => tag.id !== id);
-    setTags(updatedTags);
+  const handleRemoveIngredient = (id: string) => {
+    dispatch(removeIngredient(id));
 
-    if (updatedTags.length === 0) {
+    if (ingredients.length === 1) {
       setShowRecipes(false);
     }
   };
 
-  const handleClearTags = () => {
-    setTags([]);
+  const handleClearIngredients = () => {
+    dispatch(clearIngredients());
 
     setShowRecipes(false);
   };
 
   const handleSuggestionSelected = (suggestion: string) => {
-    setTags([...tags, { id: String(tags.length + 1), text: suggestion }]);
+    dispatch(addIngredient({ id: String(ingredients.length + 1), text: suggestion }));
+
     setInputError(false);
   };
 
-  const fetchRecipes = useCallback(async () => {
-    if (tags.length === 0) {
+  const fetchRecipesAsync = useCallback(async () => {
+    if (ingredients.length === 0) {
       setInputError(true);
       return;
     }
-
     setIsExploreCTALoading(true);
-    try {
-      const ingredients = tags.map((tag) => tag.text).join(',');
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&apiKey=${SPOONACULAR_API_KEY}`,
-      );
+    const ingredientsText = ingredients.map((ingredient) => ingredient.text).join(',');
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-
-      const data = await response.json();
-      setRecipes(data);
-      setShowRecipes(true);
-    } catch (error) {
-      console.error('Error fetching recipes:', error);
-    } finally {
-      setIsExploreCTALoading(false);
-    }
-  }, [SPOONACULAR_API_KEY, tags]);
+    await dispatch(fetchRecipes(ingredientsText));
+    setShowRecipes(true);
+    setIsExploreCTALoading(false);
+  }, [dispatch, ingredients]);
 
   const handleExplore = () => {
-    if (tags.length === 0) {
+    if (ingredients.length === 0) {
       setInputError(true);
     } else {
-      fetchRecipes();
+      fetchRecipesAsync();
     }
   };
 
   useEffect(() => {
-    if (showRecipes && tags.length > 0) {
-      fetchRecipes();
-    } else if (tags.length === 0) {
+    if (showRecipes && ingredients.length > 0) {
+      fetchRecipesAsync();
+    } else if (ingredients.length === 0) {
       setShowRecipes(false);
     }
-  }, [fetchRecipes, showRecipes, tags]);
+  }, [fetchRecipesAsync, showRecipes, ingredients]);
 
   return (
     <>
@@ -113,20 +110,24 @@ export default function HomePage() {
         <Title showRecipes={showRecipes} />
 
         <div className="flex w-full max-w-xl flex-col items-center space-y-4">
-          <TagInputField
-            tags={tags}
+          <IngredientInputField
+            ingredients={ingredients}
             onSuggestionSelected={handleSuggestionSelected}
             inputError={inputError}
           />
 
-          {tags.length > 0 ? (
-            <TagsList tags={tags} onRemoveTag={handleRemoveTag} onClearTags={handleClearTags} />
+          {ingredients.length > 0 ? (
+            <IngredientsList
+              ingredients={ingredients}
+              onRemoveIngredient={handleRemoveIngredient}
+              onClearIngredients={handleClearIngredients}
+            />
           ) : (
             <AlertMessage />
           )}
         </div>
 
-        {tags.length > 0 && showRecipes ? (
+        {ingredients.length > 0 && showRecipes ? (
           <div className="mt-6 w-full animate-fade-in space-y-4">
             <Separator className="mb-6" />
 

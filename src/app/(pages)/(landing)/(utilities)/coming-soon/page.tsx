@@ -2,7 +2,7 @@
 
 import { IngredientsSuggestionsList } from '@/lib/constants/ingredients';
 
-import { TagInput } from '@/components/core/tag-input';
+import { IngredientInput } from '@/components/core/ingredient-input';
 
 /// ---------- || COMING SOON PAGE || ---------- ///
 
@@ -16,7 +16,7 @@ export default function ComingSoonPage() {
 
         <div className="flex w-full flex-col items-center">
           <div className="z-10 w-full animate-fade-down">
-            <TagInput
+            <IngredientInput
               disabled
               className="rounded-lg"
               placeholder="What’s in your kitchen?"

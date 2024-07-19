@@ -4,8 +4,10 @@ import { useState } from 'react';
 
 import Link from 'next/link';
 
-import { IconAdjustments, IconBrandGithub, IconUser, IconUserCircle } from '@tabler/icons-react';
+import { IconAdjustments, IconBrandGithub, IconUserCircle } from '@tabler/icons-react';
 
+import { clearIngredients } from '@/lib/features/ingredients/ingredients-slice';
+import { useAppDispatch, useAppSelector } from '@/lib/state/hooks';
 import { cn } from '@/lib/utils';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/core/avatar';
@@ -17,17 +19,24 @@ import { ThemeToggle } from '@/components/others/theme-toggle';
 /// ---------- || HEADER || ---------- ///
 
 export default function Header() {
+  const dispatch = useAppDispatch();
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
+
   const [hasUser, setHasUser] = useState(false);
+
+  const handleLogoClick = () => {
+    ingredients.length > 0 && dispatch(clearIngredients());
+  };
 
   return (
     <div className="absolute top-10 flex w-full flex-col items-center space-y-2 md:flex-row md:space-y-0">
       <div className="flex animate-fade-down items-start space-x-1 md:absolute md:left-10">
-        <Link
-          href="/"
-          className="text-muted-foreground hover:text-foreground focus-visible:outline-none"
+        <a
+          onClick={handleLogoClick}
+          className="cursor-pointer text-muted-foreground hover:text-foreground focus-visible:outline-none"
         >
           <h4 className="font-logo text-2xl font-medium">What to Cook?</h4>
-        </Link>
+        </a>
 
         <Badge variant="outline" className="px-2 py-[1px] text-muted-foreground">
           Alpha

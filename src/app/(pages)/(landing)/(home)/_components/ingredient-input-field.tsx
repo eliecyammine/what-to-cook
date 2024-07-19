@@ -1,32 +1,32 @@
 import { IngredientsSuggestionsList } from '@/lib/constants/ingredients';
 import { cn } from '@/lib/utils';
 
-import { TagItem } from '@/components/core/tag';
-import { TagInput } from '@/components/core/tag-input';
+import { IngredientItem } from '@/components/core/ingredient';
+import { IngredientInput } from '@/components/core/ingredient-input';
 
 /// ---------- || TYPES & INTERFACES || ---------- ///
 
-interface TagInputFieldProps {
-  tags: TagItem[];
+interface IngredientInputFieldProps {
+  ingredients: IngredientItem[];
   onSuggestionSelected: (suggestion: string) => void;
   inputError: boolean;
 }
 
-/// ---------- || TAG INPUT FIELD || ---------- ///
+/// ---------- || INGREDIENT INPUT FIELD || ---------- ///
 
-export default function TagInputField({
-  tags,
+export default function IngredientInputField({
+  ingredients,
   onSuggestionSelected,
   inputError,
-}: TagInputFieldProps) {
+}: IngredientInputFieldProps) {
   return (
     <div className="z-10 w-full animate-fade-down">
-      <TagInput
+      <IngredientInput
         className={cn('rounded-lg', inputError ? 'border-destructive' : '')}
         placeholder={inputError ? 'Please add at least one ingredient' : 'What’s in your kitchen?'}
         suggestions={IngredientsSuggestionsList}
         onSuggestionSelected={onSuggestionSelected}
-        existingTags={tags.map((tag) => tag.text)}
+        existingIngredients={ingredients.map((ingredient) => ingredient.text)}
       />
     </div>
   );

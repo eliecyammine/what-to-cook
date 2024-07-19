@@ -2,10 +2,12 @@ import Image from 'next/image';
 
 import { IconAlertTriangle } from '@tabler/icons-react';
 
+import { Recipe } from '@/types/recipe.type';
+
 /// ---------- || TYPES & INTERFACES || ---------- ///
 
 interface RecipesGridProps {
-  recipes: any[];
+  recipes: Recipe[];
 }
 
 /// ---------- || RECIPES GRID || ---------- ///
@@ -18,9 +20,9 @@ export default function RecipesGrid({ recipes }: RecipesGridProps) {
           <Image
             src={recipe.image ? recipe.image : '/assets/logo/What to Cook - Grayish Icon Logo.svg'}
             alt={recipe.title}
-            width={112}
-            height={112}
-            className="size-28 rounded-md"
+            width={100}
+            height={100}
+            className="size-28 rounded-md bg-accent"
           />
 
           <div className="my-3 flex w-48 flex-col justify-between">

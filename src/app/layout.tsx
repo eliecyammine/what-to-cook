@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { ReduxProvider } from '@/lib/providers/redux-provider';
 import { ThemeProvider } from '@/lib/providers/theme-provider';
 import { cn } from '@/lib/utils';
 
@@ -50,11 +51,13 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
           'font-sans antialiased',
         )}
       >
-        <ThemeProvider>
-          <TooltipProvider>{children}</TooltipProvider>
+        <ReduxProvider>
+          <ThemeProvider>
+            <TooltipProvider>{children}</TooltipProvider>
 
-          <TailwindIndicator />
-        </ThemeProvider>
+            <TailwindIndicator />
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

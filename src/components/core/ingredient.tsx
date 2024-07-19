@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 import { Button } from './button';
 
-export const tagVariants = cva(
+export const ingredientVariants = cva(
   'transition-all border inline-flex items-center text-sm pl-2 rounded-md',
   {
     variants: {
@@ -73,25 +73,25 @@ export const tagVariants = cva(
   },
 );
 
-export interface TagItem {
+export interface IngredientItem {
   id: string;
   text: string;
 }
 
-export interface TagProps {
-  tag: TagItem;
+export interface IngredientProps {
+  ingredient: IngredientItem;
   variant?: 'default' | 'primary' | 'destructive';
   size?: 'default' | 'sm' | 'lg' | 'icon';
-  onRemoveTag: (id: string) => void;
+  onRemoveIngredient: (id: string) => void;
   className?: string;
   disabled?: boolean;
 }
 
-const Tag: React.FC<TagProps> = ({
-  tag,
+const Ingredient: React.FC<IngredientProps> = ({
+  ingredient,
   variant = 'secondary',
   size = 'sm',
-  onRemoveTag,
+  onRemoveIngredient,
   className,
   disabled,
 }) => {
@@ -113,7 +113,7 @@ const Tag: React.FC<TagProps> = ({
         className,
       )}
     >
-      <span className="pr-2">{tag.text}</span>
+      <span className="pr-2">{ingredient.text}</span>
 
       <Button
         type="button"
@@ -121,7 +121,7 @@ const Tag: React.FC<TagProps> = ({
         size="sm"
         onClick={(e) => {
           e.stopPropagation(); // Prevent event from bubbling up
-          onRemoveTag(tag.id);
+          onRemoveIngredient(ingredient.id);
         }}
         disabled={disabled}
         className="px-0"
@@ -132,4 +132,4 @@ const Tag: React.FC<TagProps> = ({
   );
 };
 
-export { Tag };
+export { Ingredient };

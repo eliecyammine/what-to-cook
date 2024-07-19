@@ -124,7 +124,8 @@
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background: url('/assets/images/food-background.jpg') center center/cover no-repeat;
+    background: url('/assets/images/food-background.jpg') no-repeat center center;
+    background-size: cover;
     z-index: 1;
 }
   
@@ -139,6 +140,12 @@
     backdrop-filter: blur(5px);
     z-index: -1;
   }
+
+@media (max-width: 768px) {
+  .bg-img {
+    background-position: center top; /* Adjust as necessary */
+  }
+}
 
 /* Scrollbar */
 

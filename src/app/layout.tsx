@@ -1,5 +1,3 @@
-import type { Metadata } from 'next';
-
 import { ReduxProvider } from '@/lib/providers/redux-provider';
 import { ThemeProvider } from '@/lib/providers/theme-provider';
 import { cn } from '@/lib/utils';
@@ -10,24 +8,9 @@ import TailwindIndicator from '@/components/others/tailwind-indicator';
 import { fontFlowlessLogo, fontLogo, fontMono, fontSans } from '@/styles/fonts';
 import '@/styles/globals.css';
 
-/// ---------- || METADATA || ---------- ///
+export { metadata } from './metadata';
 
-export const metadata: Metadata = {
-  title: {
-    default: 'What to Cook? | Discover Delicious Recipes with What You Have',
-    template: `%s | What to Cook?`,
-  },
-
-  description: 'Discover Delicious Recipes with What You Have',
-
-  icons: {
-    icon: '/favicons/favicon.ico',
-    shortcut: '/favicons/favicon-16x16.png',
-    apple: '/favicons/apple-touch-icon.png',
-  },
-
-  manifest: `/site.webmanifest`,
-};
+export { viewport } from './viewport';
 
 /// ---------- || TYPES & INTERFACES || ---------- ///
 
@@ -48,7 +31,7 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
           fontLogo.variable,
           fontSans.variable,
           fontMono.variable,
-          'font-sans antialiased',
+          'overflow-x-hidden font-sans antialiased',
         )}
       >
         <ReduxProvider>

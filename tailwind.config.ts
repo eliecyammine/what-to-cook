@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 import defaultTheme, { fontFamily } from 'tailwindcss/defaultTheme';
 
-const config: Config = {
+const tailwindConfig: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
 
   darkMode: ['class'],
@@ -14,6 +14,7 @@ const config: Config = {
     screens: {
       xs: '350px',
       ...defaultTheme.screens,
+      '3xl': '1800px',
     },
 
     container: {
@@ -122,6 +123,10 @@ const config: Config = {
           to: { height: '0' },
         },
 
+        scroll: {
+          to: { transform: 'translate(calc(-50% - 0.5rem))' },
+        },
+
         spotlight: {
           '0%': {
             opacity: '0',
@@ -176,6 +181,9 @@ const config: Config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
 
+        scroll:
+          'scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite',
+
         spotlight: 'spotlight 2s ease .75s 1 forwards',
 
         'fade-in': 'fade-in 2s ease-in-out forwards',
@@ -185,7 +193,11 @@ const config: Config = {
     },
   },
 
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+
   plugins: [require('tailwindcss-animate')],
 };
 
-export default config;
+export default tailwindConfig;

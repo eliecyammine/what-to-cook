@@ -113,7 +113,9 @@ const Ingredient: React.FC<IngredientProps> = ({
         className,
       )}
     >
-      <span className="pr-2">{ingredient.text}</span>
+      <span className="pr-2">
+        {ingredient.text.charAt(0).toUpperCase() + ingredient.text.slice(1)}
+      </span>
 
       <Button
         type="button"

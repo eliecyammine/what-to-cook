@@ -99,6 +99,8 @@
   body {
       @apply bg-background text-foreground;
 
+      font-family: var(--font-sans), system-ui, sans-serif;
+
       font-feature-settings: "rlig" 1, "calt" 1;
       font-synthesis: none;
       font-synthesis-weight: none;

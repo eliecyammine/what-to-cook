@@ -22,8 +22,9 @@ export default function IngredientInputField({
   return (
     <div className="z-10 w-full animate-fade-down">
       <IngredientInput
+        id="ingredient-input-field"
         className={cn('rounded-lg', inputError ? 'border-destructive' : '')}
-        placeholder={inputError ? 'Please add at least one ingredient' : 'What’s in your kitchen?'}
+        placeholder={inputError ? 'Please add at least one ingredient!' : 'What’s in your kitchen?'}
         suggestions={IngredientsSuggestionsList}
         onSuggestionSelected={onSuggestionSelected}
         existingIngredients={ingredients.map((ingredient) => ingredient.text)}

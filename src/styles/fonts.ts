@@ -3,7 +3,7 @@ import { Cookie, Pacifico } from 'next/font/google';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 
-/// ---------- || FONT LOGO || ---------- ///
+/// ---------- || FONT FLOWLESS LOGO || ---------- ///
 
 export const fontFlowlessLogo = Pacifico({
   weight: '400',

@@ -11,14 +11,12 @@ interface LandingLayoutProps {
 
 export default function LandingLayout({ children }: Readonly<LandingLayoutProps>) {
   return (
-    <div className="relative overflow-hidden">
-      <main className="bg-img flex min-h-dvh">
-        <Header />
+    <div className="bg-img relative overflow-hidden">
+      <Header />
 
-        {children}
+      <main className="flex min-h-dvh">{children}</main>
 
-        <Footer />
-      </main>
+      <Footer />
     </div>
   );
 }

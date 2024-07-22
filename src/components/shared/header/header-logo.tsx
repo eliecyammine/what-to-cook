@@ -3,8 +3,6 @@
 import { useRouter } from 'next/navigation';
 
 import { TITLE } from '@/lib/constants/site';
-import { clearIngredients } from '@/lib/features/ingredients/ingredients-slice';
-import { useAppDispatch, useAppSelector } from '@/lib/state/hooks';
 
 import { Badge } from '@/components/core/badge';
 
@@ -12,15 +10,10 @@ import { Badge } from '@/components/core/badge';
 
 export default function HeaderLogo() {
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
 
+  // Navigate to homepage
   const handleLogoClick = () => {
-    if (ingredients.length > 0) {
-      dispatch(clearIngredients());
-    } else {
-      router.push('/');
-    }
+    router.push('/');
   };
 
   return (

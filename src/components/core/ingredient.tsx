@@ -73,13 +73,8 @@ export const ingredientVariants = cva(
   },
 );
 
-export interface IngredientItem {
-  id: string;
-  text: string;
-}
-
 export interface IngredientProps {
-  ingredient: IngredientItem;
+  ingredient: string;
   variant?: 'default' | 'primary' | 'destructive';
   size?: 'default' | 'sm' | 'lg' | 'icon';
   onRemoveIngredient: (id: string) => void;
@@ -113,9 +108,7 @@ const Ingredient: React.FC<IngredientProps> = ({
         className,
       )}
     >
-      <span className="pr-2">
-        {ingredient.text.charAt(0).toUpperCase() + ingredient.text.slice(1)}
-      </span>
+      <span className="pr-2">{ingredient.charAt(0).toUpperCase() + ingredient.slice(1)}</span>
 
       <Button
         type="button"
@@ -123,7 +116,7 @@ const Ingredient: React.FC<IngredientProps> = ({
         size="sm"
         onClick={(e) => {
           e.stopPropagation(); // Prevent event from bubbling up
-          onRemoveIngredient(ingredient.id);
+          onRemoveIngredient(ingredient);
         }}
         disabled={disabled}
         className="px-0"

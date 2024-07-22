@@ -1,96 +1,60 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
-import {
-  addIngredient,
-  clearIngredients,
-  removeIngredient,
-} from '@/lib/features/ingredients/ingredients-slice';
-import { fetchRecipes } from '@/lib/features/recipes/recipes-slice';
-import { useAppDispatch, useAppSelector } from '@/lib/state/hooks';
-import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from '@/components/core/pagination';
-import { Separator } from '@/components/core/separator';
-import { Skeleton } from '@/components/core/skeleton';
+import { LogoWithText } from '@/components/shared/logo';
 
 import AlertMessage from './_components/alert-message';
 import CTAButtons from './_components/cta-buttons';
 import IngredientInputField from './_components/ingredient-input-field';
 import IngredientsList from './_components/ingredients-list';
-import RecipesGrid from './_components/recipes-grid';
-import Title from './_components/title';
 
 /// ---------- || HOME PAGE || ---------- ///
 
 export default function HomePage() {
-  const dispatch = useAppDispatch();
+  const router = useRouter();
 
-  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
-  const recipes = useAppSelector((state) => state.recipes.recipes);
-
-  const [showRecipes, setShowRecipes] = useState(false);
-
-  const [inputError, setInputError] = useState(false);
-
+  const [ingredients, setIngredients] = useState<string[]>([]);
+  const [inputError, setInputError] = useState<string | null>(null);
   const [isExploreCTALoading, setIsExploreCTALoading] = useState(false);
-  const [isLuckyCTALoading, setIsLuckyCTALoading] = useState(false);
 
-  const handleRemoveIngredient = (id: string) => {
-    dispatch(removeIngredient(id));
-
-    if (ingredients.length === 1) {
-      setShowRecipes(false);
-    }
+  // Remove a specific ingredient
+  const handleRemoveIngredient = (ingredientToRemove: string) => {
+    setIngredients((prevIngredients) =>
+      prevIngredients.filter((ingredient) => ingredient !== ingredientToRemove),
+    );
   };
 
+  // Clear all ingredients
   const handleClearIngredients = () => {
-    dispatch(clearIngredients());
-
-    setShowRecipes(false);
+    setIngredients([]);
   };
 
-  const handleSuggestionSelected = (suggestion: string) => {
-    dispatch(addIngredient({ id: String(ingredients.length + 1), text: suggestion }));
+  // Add a selected suggestion
+  const handleSuggestionSelected = (ingredient: string) => {
+    setIngredients((prevIngredients) => [...prevIngredients, ingredient]);
 
-    setInputError(false);
+    setInputError(null);
   };
 
-  const fetchRecipesAsync = useCallback(async () => {
-    if (ingredients.length === 0) {
-      setInputError(true);
-      return;
-    }
-    setIsExploreCTALoading(true);
-    const ingredientsText = ingredients.map((ingredient) => ingredient.text).join(',');
-
-    await dispatch(fetchRecipes(ingredientsText));
-    setShowRecipes(true);
-    setIsExploreCTALoading(false);
-  }, [dispatch, ingredients]);
-
+  // Navigate to recipes page with ingredients
   const handleExplore = () => {
     if (ingredients.length === 0) {
-      setInputError(true);
-    } else {
-      fetchRecipesAsync();
+      setInputError('Please add at least one ingredient.');
+      return;
     }
+
+    setIsExploreCTALoading(true);
+
+    const ingredientsText = ingredients.join(',');
+    router.push(`/recipes?ingredients=${encodeURIComponent(ingredientsText)}`);
   };
 
   return (
-    <div
-      className={cn(
-        'container flex w-full max-w-4xl flex-col items-center space-y-6 sm:mx-auto',
-        showRecipes ? 'mb-28 mt-36 md:my-16' : 'justify-center',
-      )}
-    >
-      <Title showRecipes={showRecipes} />
+    <div className="container flex w-full max-w-4xl flex-col items-center justify-center space-y-6 sm:mx-auto">
+      <LogoWithText isSmall={false} className="animate-fade-down" />
 
       <div className="flex w-full max-w-xl flex-col items-center space-y-4">
         <IngredientInputField
@@ -110,56 +74,7 @@ export default function HomePage() {
         )}
       </div>
 
-      {ingredients.length > 0 && showRecipes ? (
-        <div className="mt-6 w-full animate-fade-in space-y-4">
-          <Separator className="mb-6" />
-
-          {showRecipes ? (
-            <RecipesGrid recipes={recipes} />
-          ) : (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:justify-items-center">
-              {[...Array(20)].map((_, index) => (
-                <div key={`skeleton-${index}`} className="flex items-center space-x-4">
-                  <Skeleton className="size-28 rounded-md" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[200px]" />
-                    <Skeleton className="h-4 w-[200px]" />
-                    <Skeleton className="h-4 w-[150px]" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <Pagination className="max-w-xl">
-            <PaginationContent className="mt-10">
-              {/* <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem> */}
-
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  1
-                </PaginationLink>
-              </PaginationItem>
-
-              {/* <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem> */}
-            </PaginationContent>
-          </Pagination>
-        </div>
-      ) : (
-        <CTAButtons
-          onExplore={handleExplore}
-          isExploreCTALoading={isExploreCTALoading}
-          isLuckyCTALoading={isLuckyCTALoading}
-        />
-      )}
+      <CTAButtons onExplore={handleExplore} isExploreCTALoading={isExploreCTALoading} />
     </div>
   );
 }

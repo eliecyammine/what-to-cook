@@ -43,17 +43,13 @@ export async function updateSession(request: NextRequest) {
   const url = request.nextUrl.clone();
 
   if (!user) {
-    if (
-      !url.pathname.startsWith('/login') &&
-      !url.pathname.startsWith('/auth') &&
-      url.pathname !== '/'
-    ) {
+    if (!url.pathname.startsWith('/login') && url.pathname !== '/' && url.pathname !== '/recipes') {
       // No user and trying to access protected routes, redirect to login page
       url.pathname = '/login';
       return NextResponse.redirect(url);
     }
   } else {
-    if (url.pathname.startsWith('/login') || url.pathname.startsWith('/auth')) {
+    if (url.pathname.startsWith('/login')) {
       // User is logged in but trying to access login or auth page, redirect to homepage
       url.pathname = '/';
       return NextResponse.redirect(url);

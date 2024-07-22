@@ -1,17 +1,15 @@
-import Link from 'next/link';
 import type { Metadata } from 'next/types';
 
 import { signIn } from '@/lib/actions/auth';
 import { TITLE } from '@/lib/constants/site';
-import { cn } from '@/lib/utils';
 
-import { Button, buttonVariants } from '@/components/core/button';
+import { Button } from '@/components/core/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/core/card';
 import { Input } from '@/components/core/input';
 import { Label } from '@/components/core/label';
 import { Separator } from '@/components/core/separator';
 
-import { LoginButton } from './_components/submit-button';
+import { LoginButton } from './_components/login-button';
 
 /// ---------- || METADATA || ---------- ///
 

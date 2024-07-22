@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-import { IconListDetails, IconX } from '@tabler/icons-react';
+import { IconHistory, IconListDetails, IconX } from '@tabler/icons-react';
 
 import { cn } from '@/lib/utils';
 
@@ -16,10 +16,21 @@ interface IngredientInputProps extends InputProps {
   onSuggestionSelected?: (suggestion: string) => void;
 
   existingIngredients?: string[];
+  showHistory?: boolean;
 }
 
 const IngredientInput = React.forwardRef<HTMLInputElement, IngredientInputProps>(
-  ({ className, suggestions, onSuggestionSelected, existingIngredients = [], ...props }, ref) => {
+  (
+    {
+      className,
+      suggestions,
+      onSuggestionSelected,
+      existingIngredients = [],
+      showHistory = false,
+      ...props
+    },
+    ref,
+  ) => {
     const [inputValue, setInputValue] = useState('');
     const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -92,7 +103,7 @@ const IngredientInput = React.forwardRef<HTMLInputElement, IngredientInputProps>
 
         <Input
           className={cn(
-            'px-10 focus-visible:ring-0 focus-visible:ring-offset-0',
+            'pl-10 pr-16 focus-visible:ring-0 focus-visible:ring-offset-0',
             className,
             showSuggestions && filteredSuggestions.length > 0 ? 'rounded-b-none rounded-t-lg' : '',
           )}
@@ -105,8 +116,19 @@ const IngredientInput = React.forwardRef<HTMLInputElement, IngredientInputProps>
         />
 
         {inputValue && (
-          <Button variant="link" className="absolute right-0" onClick={() => setInputValue('')}>
-            <IconX className="size-4 text-muted-foreground hover:text-destructive" />
+          <Button
+            variant="link"
+            size="icon"
+            className="group absolute right-8"
+            onClick={() => setInputValue('')}
+          >
+            <IconX className="size-4 text-muted-foreground group-hover:text-destructive" />
+          </Button>
+        )}
+
+        {showHistory && (
+          <Button variant="link" size="icon" className="group absolute right-0" onClick={() => {}}>
+            <IconHistory className="size-4 text-muted-foreground group-hover:text-primary" />
           </Button>
         )}
 

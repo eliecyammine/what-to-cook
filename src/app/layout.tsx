@@ -1,4 +1,3 @@
-import { ReduxProvider } from '@/lib/providers/redux-provider';
 import { ThemeProvider } from '@/lib/providers/theme-provider';
 import { cn } from '@/lib/utils';
 
@@ -34,13 +33,11 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
           'overflow-x-hidden font-sans antialiased',
         )}
       >
-        <ReduxProvider>
-          <ThemeProvider>
-            <TooltipProvider>{children}</TooltipProvider>
+        <ThemeProvider>
+          <TooltipProvider>{children}</TooltipProvider>
 
-            <TailwindIndicator />
-          </ThemeProvider>
-        </ReduxProvider>
+          <TailwindIndicator />
+        </ThemeProvider>
       </body>
     </html>
   );

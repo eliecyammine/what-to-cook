@@ -2,5 +2,9 @@ export interface Recipe {
   id: string;
   title: string;
   image: string;
-  missedIngredientCount: number;
+  creditsText: string;
+  ingredients: { name: string; amount: string }[];
+  instructions: string;
+
+  missedIngredientCount?: number;
 }

@@ -7,14 +7,14 @@ import { useFormStatus } from 'react-dom';
 
 import { Button } from '@/components/core/button';
 
-type LoginButtonProps = ComponentProps<'button'> & {
+type SubmitButtonProps = ComponentProps<'button'> & {
   formAction: string | ((formData: FormData) => void);
   children: React.ReactNode;
 };
 
-/// ---------- || LOGIN BUTTON || ---------- ///
+/// ---------- || SUBMIT BUTTON || ---------- ///
 
-export function LoginButton({ formAction, children }: LoginButtonProps) {
+export function SubmitButton({ formAction, children }: SubmitButtonProps) {
   const { pending, action } = useFormStatus();
 
   const isPending = pending && action === formAction;

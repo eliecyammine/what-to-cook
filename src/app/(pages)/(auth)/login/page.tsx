@@ -9,7 +9,7 @@ import { Input } from '@/components/core/input';
 import { Label } from '@/components/core/label';
 import { Separator } from '@/components/core/separator';
 
-import { LoginButton } from './_components/login-button';
+import { SubmitButton } from '../_components/submit-button';
 
 /// ---------- || METADATA || ---------- ///
 
@@ -79,7 +79,7 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
             />
           </div>
 
-          <LoginButton formAction={signIn}>Continue with Email</LoginButton>
+          <SubmitButton formAction={signIn}>Continue with Email</SubmitButton>
 
           {searchParams?.message && (
             <p className="mt-4 bg-foreground/10 p-4 text-center text-foreground">

@@ -96,18 +96,22 @@ export default function RecipesPage({
         />
       </div>
 
-      <div className="mt-6 w-full animate-fade-in space-y-4">
+      <div className="mt-6 w-full animate-fade-in space-y-3">
         <Separator className="mb-6" />
 
         {loading ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:justify-items-center">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:justify-items-center">
             {[...Array(10)].map((_, index) => (
-              <div key={`skeleton-${index}`} className="flex items-center space-x-4">
+              <div key={`skeleton-${index}`} className="flex space-x-4">
                 <Skeleton className="size-28 rounded-md" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-[200px]" />
-                  <Skeleton className="h-4 w-[200px]" />
-                  <Skeleton className="h-4 w-[150px]" />
+
+                <div className="my-3 flex w-48 flex-col justify-between">
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-full" />
+                  </div>
+
+                  <Skeleton className="h-3 w-36" />
                 </div>
               </div>
             ))}

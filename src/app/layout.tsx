@@ -21,7 +21,7 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head />
 
       <body

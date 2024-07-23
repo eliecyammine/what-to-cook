@@ -43,7 +43,11 @@ export async function updateSession(request: NextRequest) {
   const url = request.nextUrl.clone();
 
   if (!user) {
-    if (!url.pathname.startsWith('/login') && url.pathname !== '/' && url.pathname !== '/recipes') {
+    if (
+      !url.pathname.startsWith('/login') &&
+      url.pathname !== '/' &&
+      !(url.pathname.startsWith('/recipes') && url.pathname.split('/').length <= 3)
+    ) {
       // No user and trying to access protected routes, redirect to login page
       url.pathname = '/login';
       return NextResponse.redirect(url);

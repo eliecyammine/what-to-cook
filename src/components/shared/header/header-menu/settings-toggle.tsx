@@ -1,8 +1,11 @@
+import Link from 'next/link';
+
 import { IconAdjustments } from '@tabler/icons-react';
 
 import { createClient } from '@/lib/services/supabase/server';
+import { cn } from '@/lib/utils';
 
-import { Button } from '@/components/core/button';
+import { Button, buttonVariants } from '@/components/core/button';
 import { Label } from '@/components/core/label';
 import { Separator } from '@/components/core/separator';
 import {
@@ -16,6 +19,56 @@ import {
   SheetTrigger,
 } from '@/components/core/sheet';
 import { Switch } from '@/components/core/switch';
+
+/// ---------- || FILTER SETTINGS || ---------- ///
+
+const filterSettings = [
+  {
+    id: 'show-food',
+    label: 'Show only food recipes',
+    disabled: true,
+  },
+  {
+    id: 'show-beverages',
+    label: 'Show only beverage recipes',
+    disabled: true,
+  },
+  {
+    id: 'enable-vegetarian-vegan',
+    label: 'Vegetarian/Vegan options',
+    disabled: true,
+  },
+  {
+    id: 'enable-gluten-free',
+    label: 'Gluten-free options',
+    disabled: true,
+  },
+  {
+    id: 'enable-low-calorie',
+    label: 'Low-calorie options',
+    disabled: true,
+  },
+];
+
+/// ---------- || ADVANCED SETTINGS || ---------- ///
+
+const advancedSettings = [
+  {
+    id: 'enable-ai',
+    label: 'Enable AI for recipe suggestions',
+    disabled: true,
+  },
+  {
+    id: 'dietary-restrictions',
+    label: 'Dietary Restrictions',
+    disabled: true,
+  },
+  {
+    id: 'cuisine-preferences',
+    label: 'Cuisine Preferences',
+    disabled: true,
+  },
+];
 
 /// ---------- || SETTINGS TOGGLE || ---------- ///
 
@@ -32,10 +85,9 @@ export async function SettingsToggle() {
         <Button
           variant="secondary"
           size="icon"
-          className="rounded-full text-muted-foreground hover:text-foreground focus-visible:outline-none"
-          disabled={!user}
+          className="group rounded-full focus-visible:outline-none"
         >
-          <IconAdjustments className="size-5" />
+          <IconAdjustments className="size-5 text-muted-foreground group-hover:text-foreground" />
 
           <span className="sr-only">Toggle settings</span>
         </Button>
@@ -43,81 +95,65 @@ export async function SettingsToggle() {
 
       <SheetContent className="mx-10 mt-16 h-fit rounded-lg border border-border">
         <SheetHeader>
-          <SheetTitle>Settings & Filters</SheetTitle>
+          <SheetTitle>{`Settings & Filters`}</SheetTitle>
 
           <SheetDescription>{`Customize your preferences for a personalized cooking experience.`}</SheetDescription>
         </SheetHeader>
 
-        <div className="grid gap-4 py-2">
-          <div>
-            <Separator className="my-4" />
+        <div className="py-2">
+          <Separator className="my-4" />
 
-            <span className="text-sm font-bold text-muted-foreground">Recipe Filters</span>
-          </div>
+          <span className="text-sm font-bold text-muted-foreground">Recipe Filters</span>
+        </div>
 
-          <div className="inline-flex items-center justify-between">
-            <Label htmlFor="show-food">Show only food recipes</Label>
+        <div className="flex flex-col space-y-4 py-2">
+          {filterSettings.map((filterSetting) => (
+            <div key={filterSetting.id} className="flex items-center justify-between">
+              <Label htmlFor={filterSetting.id}>{filterSetting.label}</Label>
 
-            <Switch disabled id="show-food" />
-          </div>
+              <Switch id={filterSetting.id} disabled={filterSetting.disabled} />
+            </div>
+          ))}
+        </div>
 
-          <div className="inline-flex items-center justify-between">
-            <Label htmlFor="show-beverages">Show only beverage recipes</Label>
+        <div className="py-2">
+          <Separator className="my-4" />
 
-            <Switch disabled id="show-beverages" />
-          </div>
+          <span className="text-sm font-bold text-muted-foreground">Advanced Settings</span>
+        </div>
 
-          <div className="inline-flex items-center justify-between">
-            <Label htmlFor="enable-vegetarian-vegan">Vegetarian/Vegan options</Label>
+        <div className="flex flex-col space-y-4 py-2">
+          {advancedSettings.map((advancedSetting) => (
+            <div key={advancedSetting.id} className="flex items-center justify-between">
+              <Label htmlFor={advancedSetting.id}>{advancedSetting.label}</Label>
 
-            <Switch disabled id="enable-vegetarian-vegan" />
-          </div>
-
-          <div className="inline-flex items-center justify-between">
-            <Label htmlFor="enable-gluten-free">Gluten-free options</Label>
-
-            <Switch disabled id="enable-gluten-free" />
-          </div>
-
-          <div className="inline-flex items-center justify-between">
-            <Label htmlFor="enable-low-calorie">Low-calorie options</Label>
-
-            <Switch disabled id="enable-low-calorie" />
-          </div>
-
-          <div>
-            <Separator className="my-4" />
-
-            <span className="text-sm font-bold text-muted-foreground">Advanced Settings</span>
-          </div>
-
-          <div className="inline-flex items-center justify-between">
-            <Label htmlFor="enable-ai">Enable AI for recipe suggestions</Label>
-
-            <Switch disabled id="enable-ai" />
-          </div>
-
-          <div className="inline-flex items-center justify-between">
-            <Label htmlFor="dietary-restrictions">Dietary Restrictions</Label>
-          </div>
-
-          <div className="inline-flex items-center justify-between">
-            <Label htmlFor="cuisine-preferences">Cuisine Preferences</Label>
-          </div>
+              <Switch id={advancedSetting.id} disabled={advancedSetting.disabled} />
+            </div>
+          ))}
         </div>
 
         <Separator className="my-4" />
 
         <SheetFooter>
-          <SheetClose asChild>
-            <Button disabled>Save</Button>
-          </SheetClose>
+          {user ? (
+            <>
+              <SheetClose asChild>
+                <Button disabled>Save</Button>
+              </SheetClose>
 
-          <SheetClose asChild>
-            <Button variant="outline" disabled>
-              Reset
-            </Button>
-          </SheetClose>
+              <SheetClose asChild>
+                <Button variant="outline" disabled>
+                  Reset
+                </Button>
+              </SheetClose>
+            </>
+          ) : (
+            <SheetClose asChild>
+              <Link href="/login" className={cn(buttonVariants())}>
+                Login to use these features
+              </Link>
+            </SheetClose>
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>

@@ -12,6 +12,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/core/dropdown-menu';
 
+/// ---------- || THEMES || ---------- ///
+
 const themes = [
   {
     code: 'light',
@@ -32,17 +34,23 @@ const themes = [
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
 
-  const renderIcon = () => {
+  const renderToggleIcon = () => {
     switch (theme) {
       case 'light':
-        return <IconSun className="size-5 transition-transform" />;
+        return (
+          <IconSun className="size-5 text-muted-foreground transition-transform group-hover:text-foreground" />
+        );
 
       case 'dark':
-        return <IconMoon className="size-5 transition-transform" />;
+        return (
+          <IconMoon className="size-5 text-muted-foreground transition-transform group-hover:text-foreground" />
+        );
 
       case 'system':
       default:
-        return <IconDeviceLaptop className="size-5 transition-transform" />;
+        return (
+          <IconDeviceLaptop className="size-5 text-muted-foreground transition-transform group-hover:text-foreground" />
+        );
     }
   };
 
@@ -53,10 +61,10 @@ export function ThemeToggle() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="secondary"
-          className="rounded-full text-muted-foreground hover:text-foreground focus-visible:outline-none"
           size="icon"
+          className="group rounded-full focus-visible:outline-none"
         >
-          {renderIcon()}
+          {renderToggleIcon()}
 
           <span className="sr-only">Toggle theme</span>
         </Button>
@@ -70,8 +78,9 @@ export function ThemeToggle() {
             className={getSelectedClass(theme.code)}
             disabled={theme.disabled}
           >
-            <div className="flex flex-row items-center">
+            <div className="flex items-center">
               <theme.icon className="mr-2 size-4" />
+
               <span>{theme.label}</span>
             </div>
           </DropdownMenuItem>
@@ -80,7 +89,7 @@ export function ThemeToggle() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem onClick={() => setTheme('system')} className={getSelectedClass('system')}>
-          <div className="flex flex-row items-center">
+          <div className="flex items-center">
             <IconDeviceLaptop className="mr-2 size-4" />
 
             <span>System</span>

@@ -8,9 +8,6 @@ import { useRouter } from 'next/navigation';
 
 import { Recipe } from '@/types/recipe.type';
 
-import { cn } from '@/lib/utils';
-
-import { buttonVariants } from '@/components/core/button';
 import { Dialog, DialogContent } from '@/components/core/dialog';
 import { Separator } from '@/components/core/separator';
 
@@ -78,7 +75,7 @@ export default function RecipeModal({
 
           <p className="text-sm">
             from:{' '}
-            <Link href="" className="px-0 font-bold hover:underline">
+            <Link href="" className="font-bold hover:underline">
               {recipe.creditsText}
             </Link>
           </p>
@@ -86,13 +83,23 @@ export default function RecipeModal({
           <Separator />
 
           <div>
-            <h4 className="font-semibold">Ingredients</h4>
+            <h4 className="font-semibold">Ingredients:</h4>
+
+            <ul className="mt-2">
+              {recipe.ingredients.map((ingredient, index) => (
+                <li key={index}>
+                  {ingredient.amount} of {ingredient.name}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <Separator />
 
           <div>
-            <h4 className="font-semibold">Instructions</h4>
+            <h4 className="font-semibold">Instructions:</h4>
+
+            <p className="mt-2 text-sm">{recipe.instructions}</p>
           </div>
         </div>
       </DialogContent>

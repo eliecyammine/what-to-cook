@@ -41,7 +41,7 @@ export default function RecipesGrid({ recipes }: RecipesGridProps) {
               <TooltipContent>{recipe.title}</TooltipContent>
             </Tooltip>
 
-            <p className="inline-flex items-center space-x-1 text-sm text-muted-foreground">
+            <p className="flex items-center space-x-1 text-sm text-muted-foreground">
               <IconAlertTriangle className="size-3" />
               <span>
                 {recipe.missedIngredientCount} {' missing ingredients'}

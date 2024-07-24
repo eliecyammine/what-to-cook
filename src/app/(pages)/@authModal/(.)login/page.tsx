@@ -73,6 +73,7 @@ export default function LoginModal({ searchParams }: { searchParams: { message: 
                   type="password"
                   name="password"
                   placeholder="••••••••"
+                  autoComplete="off"
                   required
                   className="focus-visible:ring-0 focus-visible:ring-offset-0"
                 />

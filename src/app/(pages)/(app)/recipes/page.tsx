@@ -80,7 +80,7 @@ export default function RecipesPage({
   }, [ingredients, router]);
 
   return (
-    <div className="container mb-28 mt-36 flex w-full max-w-4xl animate-fade-up flex-col items-center space-y-4 sm:mx-auto md:my-16">
+    <div className="container flex w-full max-w-4xl animate-fade-up flex-col items-center space-y-4 sm:mx-auto md:my-16">
       <LogoWithText isSmall={true} />
 
       <div className="flex w-full max-w-xl animate-fade-in flex-col items-center space-y-4">

@@ -1,6 +1,6 @@
 'use client';
 
-import { IconLanguage } from '@tabler/icons-react';
+import { IconDeviceLaptop, IconLanguage } from '@tabler/icons-react';
 
 import { Button } from '@/components/core/button';
 import {
@@ -11,26 +11,45 @@ import {
   DropdownMenuTrigger,
 } from '@/components/core/dropdown-menu';
 
+/// ---------- || LANGUAGES || ---------- ///
+
 const languages = [
   {
     code: 'en',
     label: 'English',
     disabled: false,
   },
+  {
+    code: 'fr',
+    label: 'French',
+    disabled: true,
+  },
+  {
+    code: 'es',
+    label: 'Spanish',
+    disabled: true,
+  },
+  {
+    code: 'ar',
+    label: 'Arabic',
+    disabled: true,
+  },
 ];
 
 /// ---------- || LANGUAGE TOGGLE || ---------- ///
 
 export function LanguageToggle() {
+  // const getSelectedClass = (currentLanguage: string) => language === currentLanguage ? 'bg-accent' : '';
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="secondary"
-          className="rounded-full text-muted-foreground hover:text-foreground focus-visible:outline-none"
           size="icon"
+          className="group rounded-full focus-visible:outline-none"
         >
-          <IconLanguage className="size-5" />
+          <IconLanguage className="size-5 text-muted-foreground group-hover:text-foreground" />
 
           <span className="sr-only">Toggle language</span>
         </Button>
@@ -38,8 +57,17 @@ export function LanguageToggle() {
 
       <DropdownMenuContent align="end" className="space-y-1">
         {languages.map((language) => (
-          <DropdownMenuItem key={language.code} onClick={() => {}} disabled={language.disabled}>
-            <div className="flex flex-row items-center">
+          <DropdownMenuItem
+            key={language.code}
+            onClick={() => {}}
+            // className={getSelectedClass(language.code)}
+            disabled={language.disabled}
+          >
+            <div className="flex items-center">
+              <span className="mr-2 w-4 rounded-full text-center text-xs font-semibold text-muted-foreground">
+                {language.code}
+              </span>
+
               <span>{language.label}</span>
             </div>
           </DropdownMenuItem>
@@ -47,8 +75,16 @@ export function LanguageToggle() {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={() => {}} disabled>
-          <div className="flex flex-row items-center">System</div>
+        <DropdownMenuItem
+          onClick={() => {}}
+          // className={getSelectedClass('system')}
+          disabled
+        >
+          <div className="flex items-center">
+            <IconDeviceLaptop className="mr-2 size-4" />
+
+            <span>System</span>
+          </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

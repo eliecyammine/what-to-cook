@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import { IconBrandGithub } from '@tabler/icons-react';
 
-import { createClient } from '@/lib/services/supabase/server';
 import { cn } from '@/lib/utils';
 
 import { buttonVariants } from '@/components/core/button';
@@ -15,20 +14,8 @@ import { ThemeToggle } from './theme-toggle';
 /// ---------- || HEADER MENU || ---------- ///
 
 export default function HeaderMenu() {
-  const canInitSupabaseClient = () => {
-    try {
-      createClient();
-
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const isSupabaseConnected = canInitSupabaseClient();
-
   return (
-    <div className="inline-flex items-center space-x-1">
+    <div className="flex items-center space-x-1">
       <Link
         href="https://github.com/eliecyammine/what-to-cook"
         className={cn(
@@ -36,10 +23,10 @@ export default function HeaderMenu() {
             variant: 'secondary',
             size: 'icon',
           }),
-          'rounded-full text-muted-foreground hover:text-foreground focus-visible:outline-none',
+          'group rounded-full focus-visible:outline-none',
         )}
       >
-        <IconBrandGithub className="size-5" />
+        <IconBrandGithub className="size-5 text-muted-foreground group-hover:text-foreground" />
       </Link>
 
       <ThemeToggle />
@@ -48,7 +35,7 @@ export default function HeaderMenu() {
 
       <SettingsToggle />
 
-      {isSupabaseConnected && <AuthToggle />}
+      <AuthToggle />
     </div>
   );
 }

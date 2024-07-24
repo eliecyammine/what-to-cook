@@ -102,6 +102,7 @@ const IngredientInput = React.forwardRef<HTMLInputElement, IngredientInputProps>
         <IconListDetails className="absolute left-4 size-4 text-muted-foreground" />
 
         <Input
+          autoComplete="off"
           className={cn(
             'pl-10 pr-16 focus-visible:ring-0 focus-visible:ring-offset-0',
             className,
@@ -114,12 +115,11 @@ const IngredientInput = React.forwardRef<HTMLInputElement, IngredientInputProps>
           aria-autocomplete="list"
           {...props}
         />
-
         {inputValue && (
           <Button
             variant="link"
-            size="icon"
-            className="group absolute right-8"
+            size="none"
+            className={`group absolute ${showHistory ? 'right-10' : 'right-4'}`}
             onClick={() => setInputValue('')}
           >
             <IconX className="size-4 text-muted-foreground group-hover:text-destructive" />
@@ -127,7 +127,7 @@ const IngredientInput = React.forwardRef<HTMLInputElement, IngredientInputProps>
         )}
 
         {showHistory && (
-          <Button variant="link" size="icon" className="group absolute right-0" onClick={() => {}}>
+          <Button variant="link" size="none" className="group absolute right-4" onClick={() => {}}>
             <IconHistory className="size-4 text-muted-foreground group-hover:text-primary" />
           </Button>
         )}

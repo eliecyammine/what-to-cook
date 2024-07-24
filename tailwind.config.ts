@@ -6,7 +6,7 @@ const tailwindConfig: Config = {
 
   darkMode: ['class'],
 
-  safelist: ['dark', 'light'],
+  safelist: ['light', 'dark'],
 
   prefix: '',
 

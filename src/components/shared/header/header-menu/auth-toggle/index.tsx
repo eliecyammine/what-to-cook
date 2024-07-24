@@ -16,9 +16,11 @@ export async function AuthToggle() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return user ? (
-    <UserAccountToggle user={user} />
-  ) : (
+  if (user) {
+    return <UserAccountToggle user={user} />;
+  }
+
+  return (
     <Link
       href="/login"
       className={cn(
@@ -26,10 +28,10 @@ export async function AuthToggle() {
           variant: 'secondary',
           size: 'sm',
         }),
-        'rounded-full text-muted-foreground hover:text-foreground focus-visible:outline-none',
+        'group rounded-full focus-visible:outline-none',
       )}
     >
-      Login
+      <span className="text-muted-foreground group-hover:text-foreground">Login</span>
     </Link>
   );
 }

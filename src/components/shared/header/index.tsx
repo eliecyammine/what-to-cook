@@ -5,14 +5,14 @@ import HeaderMenu from './header-menu';
 
 export default function Header() {
   return (
-    <div className="absolute top-10 flex w-full flex-col items-center space-y-2 md:flex-row md:space-y-0">
-      <div className="animate-fade-down md:absolute md:left-10">
+    <header className="flex w-full flex-col items-center space-y-2 pt-6 md:flex-row md:justify-between md:space-y-0">
+      <div className="animate-fade-down md:pl-10">
         <HeaderLogo />
       </div>
 
-      <div className="animate-fade-down md:absolute md:right-10">
+      <div className="animate-fade-down md:pr-10">
         <HeaderMenu />
       </div>
-    </div>
+    </header>
   );
 }

@@ -74,6 +74,7 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
               type="password"
               name="password"
               placeholder="••••••••"
+              autoComplete="off"
               required
               className="focus-visible:ring-0 focus-visible:ring-offset-0"
             />

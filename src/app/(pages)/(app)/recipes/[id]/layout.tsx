@@ -8,18 +8,16 @@ import { buttonVariants } from '@/components/core/button';
 
 /// ---------- || TYPES & INTERFACES || ---------- ///
 
-interface AuthLayoutProps {
+interface RecipeLayoutProps {
   children: React.ReactNode;
 }
 
-/// ---------- || AUTH LAYOUT || ---------- ///
+/// ---------- || RECIPE LAYOUT || ---------- ///
 
-export default function AuthLayout({ children }: Readonly<AuthLayoutProps>) {
+export default function RecipeLayout({ children }: Readonly<RecipeLayoutProps>) {
   return (
     <div className="relative overflow-hidden">
-      <div className="bg-img animate-fade-in" />
-
-      <div className="absolute left-6 top-6">
+      <div className="absolute left-4 top-4">
         <Link
           href="/"
           className={cn(
